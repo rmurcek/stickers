@@ -12,6 +12,15 @@
         height: 50px;
         width: 400px;
     }
+    #editor2 { 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 100;
+        height: 50px;
+        width: 400px;
+    }    
 </style>
 <script>
 	function evalWidget(editor){
@@ -20,36 +29,101 @@
 		alert(evalResult);
 	}
 
-	function mineSticker() {
-		nStickers++;
-		sleep(MAX_WIDGETS/nActiveWidgets)
-	}	
 	var nStickers = 0;
 	var MAX_WIDGETS = 100; 
-	var nActiveWidgets 1;
-
-	function exwcuteWidget(){
+	var nActiveWidgets = 1;
+	
+	var globalScore=0;
+	
+	function widget(name,editor,interval, runButton){
+		this.name = name;
+		this.editor = editor;
+		this.runButton = runButton;
+		this.timeInterval = interval;
+		this.localScore = 0;
+		this.enabled=true;
+		this.finished=true;		
+		this.interval;
 		
+		this.run = run;
+		function run(w){
+			this.runButton.disabled=true;
+			this.editor.disabled=true;
+			this.enabled = false;
+			this.finished = false;
+			
+			/*alert('000 '+this.localScore);
+			alert('000 '+w);*/
+			
+			this.localScore = 0;
+			var editorTxt = this.editor.getValue();
+			this.interval = setInterval(function(){transferToGlobalScore(w)},this.timeInterval);
+			eval(editorTxt);
+			this.finished = true;
+		}
+
+		this.mindLocal = mindLocal;		
+		function mindLocal(){
+			//alert('aaa '+this.localScore);
+			this.localScore++;
+			//alert('aaa '+this.localScore);
+		}
+		
+	}	
+
+	function transferToGlobalScore(w){
+		/*alert('bbb '+w);
+		alert('bbb '+w.finished);
+		alert('bbb '+w.localScore);*/
+		if(w.localScore>0){
+			//alert('ccc');
+			w.localScore--;
+			globalScore++;
+			document.getElementById('gloabal_score').value = globalScore;
+		} else {
+			//alert('ddd');
+			if(w.finished){
+				w.enabled=true;
+				w.runButton.disabled=false;
+				w.editor.disabled=false;
+				
+				clearInterval(w.interval);
+			}
+		}
 	}
 </script>
 </head>
 <body>
 
-<div id="editor">function foo(items) {
-    var x = "All this is syntax highlighted";
-    return x;
-}</div>
+<div id="editor">w1.mindLocal();</div>
+
+<div id="editor2">w2.mindLocal();</div>
     
 <script src="src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<H1>AAAA</H1>
+<H1>AAAA</H1>
+<H1>AAAA</H1>
+<H1>AAAA</H1>
+
+<button type="button" onclick="w1.run(w1)" id="b1">Run widget HW (w1)</button>
+<button type="button" onclick="w2.run(w2)" id="b2">Run widget HW2 (w2)</button>
+
 <script>
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
+    var w1 = new widget("HW", editor, 1000, document.getElementById('b1'));
 </script>
-<H1>AAAA</H1>
-<H1>AAAA</H1>
-<H1>AAAA</H1>
-<H1>AAAA</H1>
-<button type="button" onclick="evalWidget(editor)">Click Me!</button>
+
+<script>
+    var editor2 = ace.edit("editor2");
+    editor2.setTheme("ace/theme/terminal");
+    editor2.getSession().setMode("ace/mode/javascript");
+    var w2 = new widget("HW2", editor2, 1000, document.getElementById('b2'));
+</script>
+
+
+
+<input type="text" name="global_score" id="gloabal_score" disabled="true"/>
 </body>
 </html>
