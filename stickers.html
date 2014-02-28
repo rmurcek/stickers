@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>ACE in Action</title>
+<title>ACE in Action 2</title>
 <style type="text/css" media="screen">
     #editor { 
         position: absolute;
@@ -9,8 +9,29 @@
         right: 0;
         bottom: 0;
         left: 0;
+        height: 50px;
+        width: 400px;
     }
 </style>
+<script>
+	function evalWidget(editor){
+		var editorTxt = editor.getValue();
+		var evalResult = eval(editorTxt);
+		alert(evalResult);
+	}
+
+	function mineSticker() {
+		nStickers++;
+		sleep(MAX_WIDGETS/nActiveWidgets)
+	}	
+	var nStickers = 0;
+	var MAX_WIDGETS = 100; 
+	var nActiveWidgets 1;
+
+	function exwcuteWidget(){
+		
+	}
+</script>
 </head>
 <body>
 
@@ -25,5 +46,10 @@
     editor.setTheme("ace/theme/monokai");
     editor.getSession().setMode("ace/mode/javascript");
 </script>
+<H1>AAAA</H1>
+<H1>AAAA</H1>
+<H1>AAAA</H1>
+<H1>AAAA</H1>
+<button type="button" onclick="evalWidget(editor)">Click Me!</button>
 </body>
 </html>
