@@ -1,0 +1,36 @@
+
+
+					Stickers: 5
+
+	------------------------
+
+		mineSticker()
+
+	------------------------
+
+
+
+															New
+															Widget
+
+	-----------------------
+
+	for number n in range(1,5)
+		mineSticker()
+	}
+	-----------------------
+
+
+															 mineSticker()
+
+															 mineSticker(int
+															 prime)
+
+
+
+nStickers=0
+
+mineSticker() {
+    nStickers++
+    sleep(MAX_WIDGETS/nActiveWidgets)
+}
